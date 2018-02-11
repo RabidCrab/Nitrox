@@ -261,20 +261,6 @@ namespace NitroxClient.Communication.Packets.Processors
             {
                 damageManager.RepairPoint(damageManager.damagePoints[damagePointsIndex]);
             }
-
-            /*
-            FieldInfo psField = typeof(CyclopsDamagePoint).GetField("ps", BindingFlags.NonPublic | BindingFlags.Instance);
-            ParticleSystem ps = (ParticleSystem)psField.GetValue(damageManager.damagePoints[damagePointsIndex]);
-
-            if (ps != null)
-            {
-                ps.transform.parent = null;
-                ps.Stop();
-                UnityEngine.Object.Destroy(ps.gameObject, 3f);
-            }
-
-            damageManager.damagePoints[damagePointsIndex].gameObject.SetActive(false);
-            unusedDamagePoints.Add(damageManager.damagePoints[damagePointsIndex]);*/
         }
 
         /// <summary>
@@ -328,24 +314,9 @@ namespace NitroxClient.Communication.Packets.Processors
                 return;
             }
 
-            // Copied from Fire.Douse(float amount)
-            float healthFraction = fire.livemixin.GetHealthFraction();
-            int fmodIndexFireHealth = (int)fire.ReflectionGet("fmodIndexFireHealth");
-            if (fmodIndexFireHealth < 0)
+            using (packetSender.Suppress<CyclopsFireHealthChanged>())
             {
-                fire.ReflectionSet("fmodIndexFireHealth", fire.fireSound.GetParameterIndex("fire_health"));
-            }
-            fire.fireSound.SetParameterValue((int)fire.ReflectionGet("fmodIndexFireHealth"), healthFraction);
-            fire.ReflectionSet("lastTimeDoused", Time.time);
-            fire.livemixin.health = Mathf.Max(fire.livemixin.health - douseAmount, 0f);
-            if (fire.fireFX)
-            {
-                fire.fireFX.amount = healthFraction;
-            }
-            fire.gameObject.RequireComponent<Component>().transform.localScale = Vector3.Lerp(fire.minScale, Vector3.one, healthFraction);
-            if (!fire.livemixin.IsAlive() && !(bool)fire.ReflectionGet("isExtinguished"))
-            {
-                fire.ReflectionCall("Extinguished");
+                fire.Douse(douseAmount);
             }
         }
     }
