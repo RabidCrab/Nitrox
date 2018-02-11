@@ -1,7 +1,6 @@
-﻿using System;
-using NitroxModel.Packets;
-using NitroxServer.Communication.Packets.Processors.Abstract;
+﻿using NitroxModel.Packets;
 using NitroxModel.Tcp;
+using NitroxServer.Communication.Packets.Processors.Abstract;
 using NitroxServer.GameLogic;
 
 namespace NitroxServer.Communication.Packets.Processors
@@ -22,9 +21,7 @@ namespace NitroxServer.Communication.Packets.Processors
         public override void Process(ClaimPlayerSlotReservation packet, Connection connection)
         {
             Player player = playerManager.ClaimPlayerSlotReservation(connection, packet.ReservationKey, packet.CorrelationId);
-            // The callback could be used to calculate packet delay on the server end. Currently it's used for syncing clients to server
-            double totalMilliseconds = new TimeSpan(DateTime.Now.ToUniversalTime().Ticks).TotalMilliseconds;
-            player.SendPacket(new TimeChange(timeKeeper.GetCurrentTime(), totalMilliseconds));
+            player.SendPacket(new TimeChange(timeKeeper.GetCurrentTime()));
 
             escapePodManager.AssignPlayerToEscapePod(player.Id);
 
