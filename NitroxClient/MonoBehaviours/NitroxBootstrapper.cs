@@ -14,6 +14,7 @@ namespace NitroxClient.MonoBehaviours
 #if DEBUG
             AttachWarpToCommand();
 #endif
+            gameObject.AddComponent<SpawnCommand>();
 
             CreateDebugger();
         }
