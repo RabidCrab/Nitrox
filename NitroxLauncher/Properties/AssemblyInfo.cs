@@ -1,15 +1,16 @@
-using System.Reflection;
+﻿using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("NitroxInstallerActions")]
+[assembly: AssemblyTitle("NitroxLauncher")]
 [assembly: AssemblyDescription("")]
+[assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("NitroxInstallerActions")]
-[assembly: AssemblyCopyright("Copyright ©  2018")]
+[assembly: AssemblyProduct("NitroxLauncher")]
+[assembly: AssemblyCopyright("Copyright ©  2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -19,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("f37a369d-a972-476c-8777-e87ea5e089f4")]
+[assembly: Guid("0b1afa7e-20e4-43b2-81ba-e3b4ba59ea10")]
 
 // Version information for an assembly consists of the following four values:
 //
