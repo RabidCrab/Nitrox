@@ -1,12 +1,11 @@
-﻿using NitroxModel.DataStructures.Util;
-using ProtoBuf;
+﻿using ProtoBufNet;
 using System;
 using UnityEngine;
 
 namespace NitroxModel.DataStructures.GameLogic
 {
     [Serializable]
-    [ProtoContract]
+    [ProtoContract]    
     public class VehicleMovementData
     {
         [ProtoMember(1)]
@@ -35,6 +34,7 @@ namespace NitroxModel.DataStructures.GameLogic
 
         [ProtoMember(9)]
         public bool AppliedThrottle { get; }
+
 
         public VehicleMovementData()
         {

@@ -1,12 +1,8 @@
 ﻿using System.Timers;
-using NitroxModel.Core;
 using NitroxModel.Logger;
-using NitroxModel.Networking;
-using NitroxServer.Communication;
-using NitroxServer.Communication.NetworkingLayer.Lidgren;
-using NitroxServer.Communication.NetworkingLayer.LiteNetLib;
 using NitroxServer.Serialization.World;
 using NitroxServer.ConfigParser;
+using System.Configuration;
 
 namespace NitroxServer
 {
@@ -22,11 +18,15 @@ namespace NitroxServer
 
         public Server(WorldPersistence worldPersistence, World world, ServerConfig serverConfig, Communication.NetworkingLayer.NitroxServer server)
         {
+            if (ConfigurationManager.AppSettings.Count == 0)
+            {
+                Log.Warn("Nitrox Server Cant Read Config File.");
+            }
             Instance = this;
             this.worldPersistence = worldPersistence;
             this.world = world;
             this.server = server;
-
+            
             saveTimer = new Timer();
             saveTimer.Interval = serverConfig.SaveInterval;
             saveTimer.AutoReset = true;

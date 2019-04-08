@@ -39,7 +39,7 @@ namespace NitroxServer.Communication.Packets.Processors
             }
 
             List<EquippedItemData> equippedItems = world.PlayerData.GetEquippedItemsForInitialSync(player.Name);
-            List<TechType> techTypes = equippedItems.Select(equippedItem => equippedItem.TechType).ToList();
+            List<NitroxModel.DataStructures.TechType> techTypes = equippedItems.Select(equippedItem => equippedItem.TechType).ToList();
 
             PlayerJoinedMultiplayerSession playerJoinedPacket = new PlayerJoinedMultiplayerSession(player.PlayerContext, techTypes);
             playerManager.SendPacketToOtherPlayers(playerJoinedPacket, player);
@@ -52,7 +52,9 @@ namespace NitroxServer.Communication.Packets.Processors
                                                                        world.BaseData.GetBasePiecesForNewlyConnectedPlayer(),
                                                                        world.VehicleData.GetVehiclesForInitialSync(),
                                                                        world.InventoryData.GetAllItemsForInitialSync(),
+                                                                       world.InventoryData.GetAllStorageItemsForInitialSync(),
                                                                        world.GameData.PDAState.GetInitialPdaData(),
+                                                                       world.GameData.StoryGoals.GetInitialStoryGoalData(),
                                                                        world.PlayerData.GetPlayerSpawn(player.Name),
                                                                        world.PlayerData.GetSubRootGuid(player.Name),
                                                                        world.PlayerData.GetPlayerStats(player.Name),
@@ -73,7 +75,7 @@ namespace NitroxServer.Communication.Packets.Processors
                 if (!player.Equals(otherPlayer))
                 {
                     List<EquippedItemData> equippedItems = world.PlayerData.GetEquippedItemsForInitialSync(otherPlayer.Name);
-                    List<TechType> techTypes = equippedItems.Select(equippedItem => equippedItem.TechType).ToList();
+                    List<NitroxModel.DataStructures.TechType> techTypes = equippedItems.Select(equippedItem => equippedItem.TechType).ToList();
 
                     InitialRemotePlayerData remotePlayer = new InitialRemotePlayerData(otherPlayer.PlayerContext, otherPlayer.Position, otherPlayer.SubRootGuid, techTypes);
                     playerData.Add(remotePlayer);

@@ -6,6 +6,7 @@ using NitroxModel.DataStructures.GameLogic;
 using NitroxModel.DataStructures.Util;
 using NitroxModel.Logger;
 using NitroxModel.Packets;
+using NitroxModel_Subnautica.Helper;
 using UnityEngine;
 
 namespace NitroxClient.GameLogic
@@ -68,12 +69,12 @@ namespace NitroxClient.GameLogic
 
             foreach (Entity childEntity in entity.ChildEntities)
             {
-                alreadySpawnedGuids.Add(childEntity.Guid);
-
-                if (!entitySpawner.SpawnsOwnChildren())
+                if (!alreadySpawnedGuids.Contains(childEntity.Guid) && !entitySpawner.SpawnsOwnChildren())
                 {
                     Spawn(childEntity, gameObject);
                 }
+
+                alreadySpawnedGuids.Add(childEntity.Guid);
             }
 
             if (gameObject.IsPresent())
@@ -89,9 +90,11 @@ namespace NitroxClient.GameLogic
                 return serializedEntitySpawner;
             }
 
-            if (customSpawnersByTechType.ContainsKey(entity.TechType))
+            TechType techType = entity.TechType.Enum();
+
+            if (customSpawnersByTechType.ContainsKey(techType))
             {
-                return customSpawnersByTechType[entity.TechType];
+                return customSpawnersByTechType[techType];
             }
 
             return defaultEntitySpawner;
@@ -116,6 +119,11 @@ namespace NitroxClient.GameLogic
         public bool WasSpawnedByServer(string guid)
         {
             return alreadySpawnedGuids.Contains(guid);
+        }
+
+        public bool RemoveEntity(string guid)
+        {
+            return alreadySpawnedGuids.Remove(guid);
         }
 
     }
