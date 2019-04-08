@@ -7,6 +7,7 @@ using NitroxModel.DataStructures.GameLogic;
 using NitroxModel.DataStructures.Util;
 using NitroxModel.Logger;
 using NitroxModel.Packets;
+using NitroxModel_Subnautica.Helper;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -50,7 +51,7 @@ namespace NitroxClient.MonoBehaviours.Gui.MainMenu
                     // No idea what constitutes an allowed spawn
                     if (CraftData.IsAllowed(techType))
                     {
-                        SpawnItem(techType);
+                        SpawnItem(new NitroxModel.DataStructures.TechType(techType.ToString()));
                     }
                     else
                     {
@@ -73,7 +74,7 @@ namespace NitroxClient.MonoBehaviours.Gui.MainMenu
             Vector3[] HSB = new Vector3[4] { yellowHSB, greenHSB, yellowHSB, blackHSB };
             Vector3[] Colours = new Vector3[4] { yellow, green, yellow, black };
 
-            VehicleModel newVehicle = new VehicleModel(TechType.Cyclops,
+            VehicleModel newVehicle = new VehicleModel(new NitroxModel.DataStructures.TechType(TechType.Cyclops.ToString()), //TechType.Cyclops,
                 guid,
                 MainCamera.camera.transform.position + MainCamera.camera.transform.forward * 20f,
                 Quaternion.LookRotation(MainCamera.camera.transform.right),
@@ -91,9 +92,9 @@ namespace NitroxClient.MonoBehaviours.Gui.MainMenu
         /// Spawn anything but the <see cref="Cyclops"/> and send a <see cref="DroppedItem"/> packet to notify everyone else a new item exists
         /// </summary>
         /// <param name="techType"></param>
-        private void SpawnItem(TechType techType)
+        private void SpawnItem(NitroxModel.DataStructures.TechType techType)
         {
-            GameObject prefabForTechType = CraftData.GetPrefabForTechType(techType, true);
+            GameObject prefabForTechType = CraftData.GetPrefabForTechType(techType.Enum(), true);
 
             if (prefabForTechType == null)
             {
